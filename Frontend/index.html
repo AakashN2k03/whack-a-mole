@@ -1,0 +1,2875 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <title>Head Smash</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bungee&family=Chakra+Petch:wght@500;600;700&family=Outfit:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg0: #06050f;
+        --bg1: #0e0b24;
+        --panel: rgba(24, 20, 52, 0.72);
+        --line: rgba(165, 155, 255, 0.16);
+        --line2: rgba(165, 155, 255, 0.3);
+        --fg: #f2f0ff;
+        --mut: #9f9cc9;
+        --pink: #ff3d7f;
+        --amber: #ffb23d;
+        --cyan: #35e0ff;
+        --violet: #8b5cff;
+        --ok: #34e8a0;
+        --bad: #ff5a73;
+        --fd: "Bungee", "Impact", "Arial Black", sans-serif;
+        --fu: "Chakra Petch", "Segoe UI", system-ui, sans-serif;
+        --fb: "Outfit", "Segoe UI", system-ui, sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+      }
+      body {
+        color: var(--fg);
+        font-family: var(--fb);
+        font-size: 16px;
+        line-height: 1.45;
+        background:
+          radial-gradient(
+            1100px 650px at 12% -8%,
+            rgba(139, 92, 255, 0.3),
+            transparent 60%
+          ),
+          radial-gradient(
+            900px 600px at 100% 8%,
+            rgba(255, 61, 127, 0.18),
+            transparent 55%
+          ),
+          linear-gradient(180deg, var(--bg1), var(--bg0));
+        background-attachment: fixed;
+      }
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        background-image:
+          linear-gradient(rgba(165, 155, 255, 0.05) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(165, 155, 255, 0.05) 1px, transparent 1px);
+        background-size: 52px 52px;
+        -webkit-mask-image: radial-gradient(
+          ellipse at 50% 30%,
+          #000 20%,
+          transparent 75%
+        );
+        mask-image: radial-gradient(
+          ellipse at 50% 30%,
+          #000 20%,
+          transparent 75%
+        );
+      }
+      header,
+      main {
+        position: relative;
+        z-index: 1;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 16px 28px;
+        border-bottom: 1px solid var(--line);
+        backdrop-filter: blur(10px);
+        background: rgba(8, 6, 20, 0.55);
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .logo .mark {
+        width: 38px;
+        height: 38px;
+        border-radius: 11px;
+        background: linear-gradient(135deg, var(--pink), var(--amber));
+        display: grid;
+        place-items: center;
+        box-shadow: 0 6px 22px rgba(255, 61, 127, 0.45);
+      }
+      .logo b {
+        font-family: var(--fd);
+        font-size: 22px;
+        letter-spacing: 0.04em;
+        font-weight: 400;
+        background: linear-gradient(90deg, #fff, #ffd3e2);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      #steps {
+        display: flex;
+        gap: 6px;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        font-family: var(--fu);
+        font-weight: 600;
+        font-size: 12px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--mut);
+      }
+      #steps li {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 12px;
+        border-radius: 999px;
+        border: 1px solid transparent;
+      }
+      #steps li i {
+        font-style: normal;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        font-size: 11px;
+        border: 1px solid var(--line2);
+      }
+      #steps li.on {
+        color: #fff;
+        border-color: var(--line2);
+        background: rgba(139, 92, 255, 0.18);
+      }
+      #steps li.on i {
+        background: linear-gradient(135deg, var(--pink), var(--amber));
+        border-color: transparent;
+      }
+      #steps li.done {
+        color: var(--ok);
+      }
+      #steps li.done i {
+        background: var(--ok);
+        border-color: transparent;
+        color: #05140d;
+      }
+      main {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 28px 22px 60px;
+      }
+      section {
+        display: none;
+      }
+      section.on {
+        display: block;
+        animation: in 0.35s ease;
+      }
+      @keyframes in {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        padding: 22px;
+        backdrop-filter: blur(12px);
+        box-shadow:
+          0 18px 50px rgba(0, 0, 0, 0.35),
+          inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      }
+      .card h3 {
+        margin: 0 0 12px;
+        font-family: var(--fu);
+        font-size: 13px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--mut);
+        font-weight: 600;
+      }
+      button {
+        font-family: var(--fu);
+        font-weight: 700;
+        font-size: 14px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        cursor: pointer;
+        color: #fff;
+        border: 0;
+        border-radius: 12px;
+        padding: 13px 22px;
+        background: linear-gradient(135deg, var(--pink), var(--amber));
+        box-shadow:
+          0 10px 26px rgba(255, 61, 127, 0.38),
+          inset 0 1px 0 rgba(255, 255, 255, 0.4);
+        transition:
+          transform 0.12s,
+          box-shadow 0.12s,
+          filter 0.12s;
+      }
+      button:hover {
+        transform: translateY(-1px);
+        filter: brightness(1.08);
+      }
+      button:active {
+        transform: translateY(1px);
+      }
+      button.ghost {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid var(--line2);
+        box-shadow: none;
+        color: var(--fg);
+        padding: 10px 16px;
+      }
+      button.ghost:hover {
+        background: rgba(255, 255, 255, 0.09);
+      }
+      button.off {
+        opacity: 0.55;
+      }
+      button:disabled {
+        opacity: 0.35;
+        cursor: not-allowed;
+        transform: none;
+        filter: grayscale(0.4);
+      }
+      /* upload */
+      .hero {
+        text-align: center;
+        margin: 18px auto 28px;
+        max-width: 720px;
+      }
+      .kicker {
+        display: inline-block;
+        font-family: var(--fu);
+        font-weight: 700;
+        font-size: 12px;
+        letter-spacing: 0.3em;
+        color: var(--cyan);
+        padding: 6px 14px;
+        border: 1px solid rgba(53, 224, 255, 0.35);
+        border-radius: 999px;
+        background: rgba(53, 224, 255, 0.07);
+      }
+      .hero h1 {
+        font-family: var(--fd);
+        font-weight: 400;
+        font-size: clamp(34px, 6vw, 64px);
+        line-height: 1.02;
+        margin: 18px 0 12px;
+        letter-spacing: 0.01em;
+      }
+      .hero h1 em {
+        font-style: normal;
+        background: linear-gradient(90deg, var(--pink), var(--amber));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        filter: drop-shadow(0 6px 24px rgba(255, 61, 127, 0.45));
+      }
+      .hero p {
+        color: var(--mut);
+        font-size: 17px;
+        margin: 0 auto;
+        max-width: 560px;
+      }
+      .drop {
+        display: block;
+        max-width: 720px;
+        margin: 0 auto;
+        text-align: center;
+        cursor: pointer;
+        padding: 46px 20px;
+        border-radius: 24px;
+        position: relative;
+        background:
+          linear-gradient(var(--bg1), var(--bg1)) padding-box,
+          linear-gradient(
+              135deg,
+              var(--violet),
+              var(--pink),
+              var(--amber),
+              var(--cyan)
+            )
+            border-box;
+        border: 2px dashed transparent;
+        background:
+          linear-gradient(rgba(16, 13, 38, 0.92), rgba(16, 13, 38, 0.92))
+            padding-box,
+          linear-gradient(
+              135deg,
+              var(--violet),
+              var(--pink),
+              var(--amber),
+              var(--cyan)
+            )
+            border-box;
+        transition:
+          transform 0.15s,
+          box-shadow 0.15s;
+      }
+      .drop:hover,
+      .drop.over {
+        transform: translateY(-2px);
+        box-shadow: 0 20px 60px rgba(139, 92, 255, 0.35);
+      }
+      .drop svg {
+        width: 64px;
+        height: 64px;
+        margin-bottom: 10px;
+      }
+      .drop b {
+        display: block;
+        font-family: var(--fu);
+        font-size: 22px;
+        letter-spacing: 0.04em;
+      }
+      .drop span {
+        color: var(--mut);
+      }
+      .tips {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+        list-style: none;
+        padding: 0;
+        margin: 20px auto 0;
+        max-width: 720px;
+      }
+      .tips li {
+        font-family: var(--fu);
+        font-size: 13px;
+        font-weight: 600;
+        padding: 7px 14px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--line);
+        color: var(--mut);
+      }
+      .tips li::before {
+        content: "✓ ";
+        color: var(--ok);
+      }
+      details.adv {
+        max-width: 720px;
+        margin: 22px auto 0;
+      }
+      details.adv summary {
+        cursor: pointer;
+        color: var(--mut);
+        font-family: var(--fu);
+        font-size: 13px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        text-align: center;
+        list-style: none;
+      }
+      details.adv[open] summary {
+        margin-bottom: 12px;
+      }
+      .row {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .col {
+        flex: 1;
+        min-width: 290px;
+      }
+      .field {
+        display: block;
+        font-size: 13px;
+        color: var(--mut);
+        margin: 0 0 6px;
+        font-family: var(--fu);
+        letter-spacing: 0.06em;
+      }
+      input[type="text"] {
+        background: rgba(0, 0, 0, 0.35);
+        border: 1px solid var(--line2);
+        color: var(--fg);
+        border-radius: 10px;
+        padding: 11px 12px;
+        width: 100%;
+        font-family: var(--fb);
+        font-size: 15px;
+      }
+      input[type="text"]:focus {
+        outline: 2px solid var(--violet);
+        outline-offset: 1px;
+      }
+      .check {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        font-size: 15px;
+        color: var(--fg);
+        cursor: pointer;
+      }
+      .check input {
+        accent-color: var(--pink);
+        width: 18px;
+        height: 18px;
+      }
+      /* process */
+      #s-process .card {
+        max-width: 620px;
+        margin: 40px auto;
+      }
+      .pt {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 16px;
+      }
+      .pt h2 {
+        margin: 0;
+        font-family: var(--fd);
+        font-weight: 400;
+        font-size: 24px;
+      }
+      .pt p {
+        margin: 2px 0 0;
+        color: var(--mut);
+        font-size: 14px;
+      }
+      .spin {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        border: 4px solid rgba(255, 255, 255, 0.1);
+        border-top-color: var(--pink);
+        border-right-color: var(--amber);
+        animation: sp 0.8s linear infinite;
+        flex: none;
+      }
+      #s-process.failed .spin {
+        animation: none;
+        border-color: var(--bad);
+      }
+      @keyframes sp {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .bar {
+        display: block;
+        height: 8px;
+        border-radius: 99px;
+        background: rgba(255, 255, 255, 0.08);
+        overflow: hidden;
+      }
+      .bar u {
+        display: block;
+        height: 100%;
+        width: 0;
+        border-radius: 99px;
+        background: linear-gradient(
+          90deg,
+          var(--violet),
+          var(--pink),
+          var(--amber)
+        );
+        transition: width 0.45s ease;
+        text-decoration: none;
+      }
+      ol.stages {
+        list-style: none;
+        padding: 0;
+        margin: 14px 0 0;
+      }
+      ol.stages li {
+        padding: 11px 4px;
+        border-bottom: 1px solid var(--line);
+        color: var(--mut);
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        font-size: 15px;
+      }
+      ol.stages li:last-child {
+        border: 0;
+      }
+      ol.stages li::before {
+        content: "";
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        border: 2px solid var(--line2);
+        flex: none;
+      }
+      ol.stages li.act {
+        color: var(--fg);
+        font-weight: 600;
+      }
+      ol.stages li.act::before {
+        border-color: var(--pink);
+        background: var(--pink);
+        box-shadow: 0 0 12px var(--pink);
+      }
+      ol.stages li.done {
+        color: var(--ok);
+      }
+      ol.stages li.done::before {
+        background: var(--ok);
+        border-color: var(--ok);
+      }
+      .err {
+        color: var(--bad);
+        white-space: pre-wrap;
+        font-size: 14px;
+      }
+      /* preview */
+      .grid2 {
+        display: grid;
+        grid-template-columns: 1.05fr 1fr;
+        gap: 18px;
+      }
+      @media (max-width: 860px) {
+        .grid2 {
+          grid-template-columns: 1fr;
+        }
+        #steps li span {
+          display: none;
+        }
+      }
+      .pvwrap {
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        background: #0a0820;
+      }
+      #pv {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      .grp {
+        margin-top: 14px;
+      }
+      .grp > span {
+        display: block;
+        font-family: var(--fu);
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--mut);
+        margin-bottom: 8px;
+      }
+      .grp div {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .chip {
+        padding: 8px 14px;
+        font-size: 12px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--line2);
+        box-shadow: none;
+        letter-spacing: 0.06em;
+      }
+      .chip:hover {
+        border-color: var(--pink);
+        background: rgba(255, 61, 127, 0.12);
+      }
+      .checker {
+        background: conic-gradient(
+            #1a1736 25%,
+            #221e45 0 50%,
+            #1a1736 0 75%,
+            #221e45 0
+          )
+          0 0/18px 18px;
+        border-radius: 14px;
+        text-align: center;
+        border: 1px solid var(--line);
+      }
+      .checker img {
+        max-width: 100%;
+        max-height: 260px;
+        display: block;
+        margin: 0 auto;
+      }
+      .chk {
+        display: flex;
+        gap: 10px;
+        margin: 7px 0;
+        font-size: 14px;
+        align-items: flex-start;
+      }
+      .chk span:first-child {
+        font-weight: 700;
+      }
+      .ok {
+        color: var(--ok);
+      }
+      .bad {
+        color: var(--bad);
+      }
+      .sl {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin: 12px 0 4px;
+        font-family: var(--fu);
+        font-size: 13px;
+        letter-spacing: 0.06em;
+        color: var(--mut);
+      }
+      .sl output {
+        color: var(--fg);
+        font-weight: 700;
+      }
+      input[type="range"] {
+        width: 100%;
+        -webkit-appearance: none;
+        appearance: none;
+        height: 6px;
+        border-radius: 99px;
+        background: rgba(255, 255, 255, 0.1);
+        outline: none;
+      }
+      input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--pink), var(--amber));
+        border: 2px solid #fff;
+        box-shadow: 0 2px 10px rgba(255, 61, 127, 0.6);
+        cursor: pointer;
+      }
+      input[type="range"]::-moz-range-thumb {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: var(--pink);
+        border: 2px solid #fff;
+        cursor: pointer;
+      }
+      .acts {
+        display: flex;
+        gap: 12px;
+        margin-top: 18px;
+        flex-wrap: wrap;
+      }
+      /* game */
+      #hud {
+        display: grid;
+        grid-template-columns: 1.5fr 1fr 1fr 1.2fr auto;
+        gap: 10px;
+        margin-bottom: 12px;
+        align-items: stretch;
+      }
+      @media (max-width: 860px) {
+        #hud {
+          grid-template-columns: 1fr 1fr;
+        }
+        #hud .ctrl {
+          grid-column: 1/-1;
+        }
+      }
+      .stat {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 10px 16px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+        backdrop-filter: blur(10px);
+      }
+      .stat .lbl,
+      .ko .lbl {
+        font-family: var(--fu);
+        font-size: 11px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--mut);
+        font-weight: 600;
+      }
+      .stat b {
+        font-family: var(--fd);
+        font-weight: 400;
+        font-size: 30px;
+        line-height: 1.1;
+        letter-spacing: 0.02em;
+      }
+      .stat.score b {
+        background: linear-gradient(90deg, #fff, var(--amber));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .stat.combo b {
+        color: var(--cyan);
+        text-shadow: 0 0 18px rgba(53, 224, 255, 0.6);
+      }
+      .bump {
+        animation: bump 0.28s ease;
+      }
+      @keyframes bump {
+        40% {
+          transform: scale(1.35);
+        }
+      }
+      .stat.time .bar {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 5px;
+        border-radius: 0;
+      }
+      .stat.time .bar u {
+        transition: width 0.2s linear;
+      }
+      .stat.time.low b {
+        color: var(--bad);
+        animation: pulse 0.6s infinite;
+      }
+      @keyframes pulse {
+        50% {
+          opacity: 0.45;
+        }
+      }
+      .ctrl {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+      .ctrl button {
+        padding: 9px 12px;
+        font-size: 12px;
+      }
+      .ko {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 12px;
+        padding: 0 4px;
+      }
+      #h-pips {
+        display: flex;
+        gap: 6px;
+      }
+      #h-pips i {
+        width: 34px;
+        height: 10px;
+        border-radius: 99px;
+        background: rgba(255, 255, 255, 0.1);
+        transition: all 0.2s;
+      }
+      #h-pips i.on {
+        background: linear-gradient(90deg, var(--pink), var(--amber));
+        box-shadow: 0 0 12px rgba(255, 61, 127, 0.7);
+      }
+      #stage {
+        position: relative;
+        max-width: 960px;
+        margin: 0 auto;
+        border-radius: 22px;
+        padding: 6px;
+        background: linear-gradient(
+          135deg,
+          var(--violet),
+          var(--pink),
+          var(--cyan)
+        );
+        box-shadow: 0 24px 80px rgba(139, 92, 255, 0.35);
+      }
+      #gc {
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 17px;
+        touch-action: none;
+        cursor: none;
+        background: #0a0820;
+      }
+      #ov {
+        position: absolute;
+        inset: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(6, 5, 18, 0.74);
+        backdrop-filter: blur(6px);
+        border-radius: 17px;
+        text-align: center;
+      }
+      #ov.off {
+        display: none;
+      }
+      .modal {
+        max-width: 420px;
+        padding: 30px 28px;
+        border-radius: 22px;
+        background: rgba(20, 16, 46, 0.92);
+        border: 1px solid var(--line2);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        align-items: center;
+      }
+      #ov-t {
+        font-family: var(--fd);
+        font-size: 36px;
+        letter-spacing: 0.02em;
+        background: linear-gradient(90deg, #fff, var(--amber));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      #ov-s {
+        color: var(--mut);
+        font-size: 16px;
+      }
+      .kb {
+        display: inline-block;
+        font-family: var(--fu);
+        font-weight: 700;
+        font-size: 12px;
+        padding: 3px 9px;
+        border-radius: 7px;
+        border: 1px solid var(--line2);
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--fg);
+        margin: 2px;
+      }
+      .res {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 10px;
+        width: 100%;
+        margin-top: 4px;
+      }
+      .res div {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 10px 6px;
+      }
+      .res small {
+        display: block;
+        font-family: var(--fu);
+        font-size: 10px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--mut);
+      }
+      .res b {
+        font-family: var(--fd);
+        font-weight: 400;
+        font-size: 22px;
+        color: #fff;
+      }
+      .hint {
+        text-align: center;
+        color: var(--mut);
+        font-size: 13px;
+        margin-top: 12px;
+        font-family: var(--fu);
+        letter-spacing: 0.08em;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="logo">
+        <div class="mark">
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#fff"
+            stroke-width="2.4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M14 4l6 6-3 3-6-6z" />
+            <path d="M11 7L4 14l3 3 7-7" />
+            <path d="M5 20l4-4" />
+          </svg>
+        </div>
+        <b>HEAD SMASH</b>
+      </div>
+      <ol id="steps">
+        <li data-s="1" class="on"><i>1</i><span>Upload</span></li>
+        <li data-s="2"><i>2</i><span>Extract</span></li>
+        <li data-s="3"><i>3</i><span>Adjust</span></li>
+        <li data-s="4"><i>4</i><span>Play</span></li>
+      </ol>
+    </header>
+    <main>
+      <section id="s-upload" class="on">
+        <div class="hero">
+          <div class="kicker">AI HEAD EXTRACTION</div>
+          <h1>Pick your <em>target.</em></h1>
+          <p>
+            Upload a photo. We cut out the whole head, hair strands included,
+            drop it on an anime body and pop it out of the holes. Grab the
+            hammer.
+          </p>
+        </div>
+        <label class="drop" id="drop"
+          ><input id="file" type="file" accept="image/*" hidden />
+          <svg viewBox="0 0 64 64" fill="none">
+            <defs>
+              <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+                <stop stop-color="#ff3d7f" />
+                <stop offset="1" stop-color="#ffb23d" />
+              </linearGradient>
+            </defs>
+            <rect
+              x="6"
+              y="10"
+              width="52"
+              height="44"
+              rx="10"
+              stroke="url(#g1)"
+              stroke-width="3"
+            />
+            <circle cx="22" cy="26" r="5" fill="url(#g1)" />
+            <path
+              d="M8 48l14-13 10 9 8-8 16 14"
+              stroke="url(#g1)"
+              stroke-width="3"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <b>Drop a photo here</b
+          ><span>or click to browse · JPG, PNG, WEBP</span></label
+        >
+        <ul class="tips">
+          <li>Front-facing</li>
+          <li>Good lighting</li>
+          <li>Hair fully in frame</li>
+          <li>One person</li>
+        </ul>
+        <details class="adv">
+          <summary>Advanced settings</summary>
+          <div class="card">
+            <div class="row">
+              <div class="col">
+                <label class="check"
+                  ><input id="keepHair" type="checkbox" /> Keep long hair that
+                  falls past the chin</label
+                >
+              </div>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <section id="s-process">
+        <div class="card">
+          <div class="pt">
+            <div class="spin"></div>
+            <div>
+              <h2>Building your character</h2>
+              <p>
+                Everything runs in your browser. The first run downloads the AI
+                models.
+              </p>
+            </div>
+          </div>
+          <span class="bar"><u id="pbar"></u></span>
+          <ol class="stages" id="stages"></ol>
+          <p id="perr" class="err"></p>
+          <button class="ghost" id="pback" hidden>Back</button>
+        </div>
+      </section>
+
+      <section id="s-preview">
+        <div class="grid2">
+          <div class="card">
+            <h3>Character preview</h3>
+            <div class="pvwrap">
+              <canvas id="pv" width="480" height="560"></canvas>
+            </div>
+            <div id="tests"></div>
+          </div>
+          <div>
+            <div class="card">
+              <h3>Extracted head</h3>
+              <div class="checker"><img id="headImg" /></div>
+              <div id="checks" style="margin-top: 12px"></div>
+            </div>
+            <div class="card" style="margin-top: 18px">
+              <h3>Fine-tune placement</h3>
+              <div class="sl">
+                <label for="a-scale">Head size</label
+                ><output id="v-scale"></output>
+              </div>
+              <input
+                type="range"
+                id="a-scale"
+                min=".6"
+                max="1.6"
+                step=".01"
+                value="1"
+              />
+              <div class="sl">
+                <label for="a-dx">Horizontal</label><output id="v-dx"></output>
+              </div>
+              <input
+                type="range"
+                id="a-dx"
+                min="-60"
+                max="60"
+                step="1"
+                value="0"
+              />
+              <div class="sl">
+                <label for="a-dy">Vertical</label><output id="v-dy"></output>
+              </div>
+              <input
+                type="range"
+                id="a-dy"
+                min="-60"
+                max="60"
+                step="1"
+                value="0"
+              />
+              <div class="sl">
+                <label for="a-rot">Rotation</label><output id="v-rot"></output>
+              </div>
+              <input
+                type="range"
+                id="a-rot"
+                min="-25"
+                max="25"
+                step=".5"
+                value="0"
+              />
+              <div class="sl">
+                <label for="a-neck">Neck length</label
+                ><output id="v-neck"></output>
+              </div>
+              <input
+                type="range"
+                id="a-neck"
+                min="10"
+                max="80"
+                step="1"
+                value="40"
+              />
+              <label
+                id="force"
+                class="check"
+                style="display: none; margin-top: 14px; font-size: 14px"
+                ><input type="checkbox" id="forceChk" /> Quality checks failed,
+                use anyway</label
+              >
+              <div class="acts">
+                <button id="start">Start game</button
+                ><button class="ghost" id="retry">Try another photo</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="s-game">
+        <div id="hud">
+          <div class="stat score">
+            <span class="lbl">Score</span><b id="h-score">0</b>
+          </div>
+          <div class="stat combo">
+            <span class="lbl">Combo</span><b id="h-combo">–</b>
+          </div>
+          <div class="stat">
+            <span class="lbl">Hits</span><b id="h-hits">0</b>
+          </div>
+          <div class="stat time" id="h-timecard">
+            <span class="lbl">Time</span><b id="h-time">60</b
+            ><i class="bar"><u id="h-bar" style="width: 100%"></u></i>
+          </div>
+          <div class="ctrl">
+            <button class="ghost" id="b-snd">SFX on</button
+            ><button class="ghost" id="b-mus">Music on</button>
+            <button class="ghost" id="b-restart">Restart</button
+            ><button class="ghost" id="b-menu">Edit head</button>
+          </div>
+        </div>
+        <div class="ko">
+          <span class="lbl">Target damage</span>
+          <div id="h-pips"><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <div id="stage">
+          <canvas id="gc" width="960" height="680"></canvas>
+          <div id="ov">
+            <div class="modal">
+              <div id="ov-t">Ready?</div>
+              <div id="ov-s"></div>
+              <button id="ov-b">Play</button>
+            </div>
+          </div>
+        </div>
+        <div class="hint">
+          CLICK OR TAP TO SMASH · AIM AT THE HEAD · 5 HITS = KNOCKOUT
+        </div>
+      </section>
+    </main>
+
+    <!-- in-browser head extraction (replaces the Python backend) -->
+    <script type="module" src="headExtract.js"></script>
+
+    <script>
+      "use strict";
+      const $ = (s) => document.querySelector(s);
+      const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
+      const lerp = (a, b, t) => a + (b - a) * t;
+      const FACE_UNITS = 150; // face height in character units
+      const state = {
+        H: null,
+        adj: { scale: 1, dx: 0, dy: 0, rot: 0, neck: 40 },
+        passed: true,
+      };
+      let cur = "upload";
+      const STEP = { upload: 1, process: 2, preview: 3, game: 4 };
+      function show(n) {
+        cur = n;
+        document
+          .querySelectorAll("section")
+          .forEach((s) => s.classList.toggle("on", s.id === "s-" + n));
+        document.querySelectorAll("#steps li").forEach((li) => {
+          const k = +li.dataset.s;
+          li.classList.toggle("on", k === STEP[n]);
+          li.classList.toggle("done", k < STEP[n]);
+        });
+        window.scrollTo(0, 0);
+      }
+
+      /* ============================================================ UPLOAD + IN-BROWSER PIPELINE */
+      const STAGES = [
+        "Analyzing photograph",
+        "Detecting head and facial landmarks",
+        "Segmenting head and hair",
+        "Matting hair strands, refining edges",
+        "Cutting neck, removing remnants",
+        "Quality checks",
+        "Preparing interactive character",
+      ];
+      function renderStages() {
+        $("#stages").innerHTML = STAGES.map(
+          (s, i) => `<li id="st${i + 1}">${s}</li>`,
+        ).join("");
+        $("#perr").textContent = "";
+        $("#pback").hidden = true;
+        $("#s-process").classList.remove("failed");
+        $("#pbar").style.width = "0%";
+      }
+      function setStage(n, label) {
+        $("#pbar").style.width = clamp((n - 1) / 7, 0, 1) * 100 + "%";
+        for (let i = 1; i <= 7; i++) {
+          const e = $("#st" + i);
+          if (!e) continue;
+          e.className = i < n ? "done" : i === n ? "act" : "";
+          if (i === n && label) e.lastChild.textContent = label;
+        }
+      }
+      const drop = $("#drop"),
+        fileIn = $("#file");
+      fileIn.onchange = () => fileIn.files[0] && extract(fileIn.files[0]);
+      drop.ondragover = (e) => {
+        e.preventDefault();
+        drop.classList.add("over");
+      };
+      drop.ondragleave = () => drop.classList.remove("over");
+      drop.ondrop = (e) => {
+        e.preventDefault();
+        drop.classList.remove("over");
+        e.dataTransfer.files[0] && extract(e.dataTransfer.files[0]);
+      };
+      $("#pback").onclick = () => show("upload");
+      $("#retry").onclick = () => {
+        fileIn.value = "";
+        show("upload");
+      };
+
+      async function extract(file) {
+        show("process");
+        renderStages();
+        try {
+          if (!window.HeadExtract)
+            throw new Error(
+              "headExtract.js did not load. Serve this folder over http (for example: python -m http.server) and check the browser console.",
+            );
+          const fin = await window.HeadExtract.run(
+            file,
+            $("#keepHair").checked,
+            (n, label) => setStage(n, label),
+          );
+          setStage(7);
+          await buildHead(fin);
+          setStage(8);
+          openPreview(fin);
+        } catch (e) {
+          $("#perr").textContent =
+            "Failed: " + (e && e.message ? e.message : e);
+          $("#pback").hidden = false;
+          $("#s-process").classList.add("failed");
+        }
+      }
+
+      /* ============================================================ HEAD MODEL */
+      function bbox(pts) {
+        let x0 = 1e9,
+          y0 = 1e9,
+          x1 = -1e9,
+          y1 = -1e9;
+        for (const [x, y] of pts) {
+          x0 = Math.min(x0, x);
+          y0 = Math.min(y0, y);
+          x1 = Math.max(x1, x);
+          y1 = Math.max(y1, y);
+        }
+        return {
+          x: x0,
+          y: y0,
+          w: x1 - x0,
+          h: y1 - y0,
+          cx: (x0 + x1) / 2,
+          cy: (y0 + y1) / 2,
+        };
+      }
+      function loadImg(src) {
+        return new Promise((res, rej) => {
+          const i = new Image();
+          i.onload = () => res(i);
+          i.onerror = rej;
+          i.src = src;
+        });
+      }
+      async function buildHead(f) {
+        const img = await loadImg(f.png),
+          lm = f.landmarks,
+          w = img.naturalWidth,
+          h = img.naturalHeight;
+        const c = document.createElement("canvas");
+        c.width = w;
+        c.height = h;
+        const g = c.getContext("2d");
+        g.drawImage(img, 0, 0);
+        const px = g.getImageData(0, 0, w, h).data,
+          alpha = new Uint8Array(w * h);
+        for (let i = 0; i < w * h; i++) alpha[i] = px[i * 4 + 3];
+        state.H = {
+          img,
+          w,
+          h,
+          lm,
+          alpha,
+          faceW: lm.faceW,
+          faceH: lm.faceH,
+          chin: lm.chin,
+          skin: lm.skin,
+          d: {
+            eyeL: bbox(lm.eyeL),
+            eyeR: bbox(lm.eyeR),
+            browL: bbox(lm.browL),
+            browR: bbox(lm.browR),
+            inner: bbox(lm.lipsInner),
+            outer: bbox(lm.lipsOuter),
+          },
+        };
+        state.passed = f.passed;
+      }
+      const shade = (rgb, f) =>
+        `rgb(${rgb.map((v) => Math.round(clamp(v * f, 0, 255))).join(",")})`;
+      function alphaAt(x, y) {
+        const H = state.H;
+        x = Math.round(x);
+        y = Math.round(y);
+        if (x < 0 || y < 0 || x >= H.w || y >= H.h) return 0;
+        return H.alpha[y * H.w + x];
+      }
+
+      /* ============================================================ SPRINGS + CHARACTER STATE */
+      class Spring {
+        constructor(k, c) {
+          this.k = k;
+          this.c = c;
+          this.x = 0;
+          this.v = 0;
+        }
+        step(dt, t = 0) {
+          const n = Math.max(1, Math.ceil(dt / 0.008)),
+            h = dt / n;
+          for (let i = 0; i < n; i++) {
+            this.v += (this.k * (t - this.x) - this.c * this.v) * h;
+            this.x += this.v * h;
+          }
+        }
+      }
+      function makeChar() {
+        return {
+          hits: 0,
+          lastHit: -99,
+          defeated: false,
+          dizzy: false,
+          mark: null,
+          markA: 0,
+          starT: 0,
+          force: null,
+          rx: {
+            sq: new Spring(260, 13),
+            tilt: new Spring(110, 7),
+            back: new Spring(150, 10),
+            sway: new Spring(70, 5),
+            shock: new Spring(140, 16),
+            angry: new Spring(140, 16),
+            tired: new Spring(100, 14),
+            jaw: new Spring(160, 15),
+          },
+          state: "hidden",
+          rise: 0,
+          wait: 0.6,
+          upT: 0,
+          hole: null,
+          y: 0,
+          headM: null,
+          defT: 0,
+          jawPx: 0,
+          swayPx: 0,
+        };
+      }
+      function moodTargets(ch, now) {
+        if (ch.force)
+          return Object.assign(
+            { shock: 0, angry: 0, tired: 0, dizzy: false, jaw: 0 },
+            ch.force,
+          );
+        const since = now - ch.lastHit,
+          z = { shock: 0, angry: 0, tired: 0, dizzy: false, jaw: 0 };
+        if (ch.defeated) {
+          z.tired = 1;
+          z.dizzy = true;
+          z.jaw = 0.04;
+          return z;
+        }
+        if (!ch.hits) return z;
+        if (since < 0.45) {
+          z.shock = 1;
+          z.jaw = 0.1 + 0.012 * ch.hits;
+          return z;
+        }
+        if (ch.hits <= 2) {
+          z.angry = 1;
+          z.jaw = 0.03;
+          return z;
+        }
+        if (ch.hits === 3) {
+          z.dizzy = true;
+          z.shock = 0.2;
+          z.jaw = 0.03;
+          return z;
+        }
+        z.tired = 1;
+        z.jaw = 0.04;
+        z.dizzy = since < 1.3;
+        return z;
+      }
+      function stepChar(ch, dt, now) {
+        const tg = moodTargets(ch, now),
+          r = ch.rx;
+        r.sq.step(dt, 0);
+        r.tilt.step(dt, ch.defeated ? 0.5 : 0);
+        r.back.step(dt, ch.defeated ? 10 : 0);
+        r.sway.step(dt, 0);
+        r.shock.step(dt, tg.shock);
+        r.angry.step(dt, tg.angry);
+        r.tired.step(dt, tg.tired);
+        r.jaw.step(dt, tg.jaw);
+        ch.dizzy = tg.dizzy;
+        ch.markA = Math.max(0, ch.markA - dt * (ch.hits >= 2 ? 0.2 : 0.8));
+        ch.starT += dt;
+      }
+      /* a hit only injects momentum + bumps the counter; the face itself is never regenerated */
+      function applyHit(ch, now, imgPt) {
+        ch.hits++;
+        ch.lastHit = now;
+        const L = ch.hits,
+          H = state.H,
+          r = ch.rx,
+          sgn = Math.random() < 0.5 ? -1 : 1;
+        r.sq.v += 11 + L;
+        r.tilt.v += -7 * sgn - 2 * L * sgn;
+        r.back.v += -70;
+        r.sway.v += sgn * H.faceW * (5 + L);
+        if (L === 2 || L === 3) r.tilt.v += sgn * 10; // head shake
+        ch.mark = imgPt || { x: H.lm.nose[0], y: H.lm.nose[1] - H.faceH * 0.2 };
+        ch.markA = 1;
+        if (L >= 5) ch.defeated = true;
+      }
+
+      /* ============================================================ LAYERED HEAD RENDERER */
+      const tmp = document.createElement("canvas"),
+        tg = tmp.getContext("2d");
+      function featherDraw(
+        ctx,
+        img,
+        sx,
+        sy,
+        sw,
+        sh,
+        cx,
+        cy,
+        k = 1,
+        rot = 0,
+        ox = 0,
+        oy = 0,
+      ) {
+        const w = Math.max(2, Math.ceil(sw * k)),
+          h = Math.max(2, Math.ceil(sh * k));
+        tmp.width = w;
+        tmp.height = h;
+        tg.drawImage(img, sx, sy, sw, sh, 0, 0, w, h);
+        tg.globalCompositeOperation = "destination-in";
+        tg.save();
+        tg.translate(w / 2, h / 2);
+        tg.scale(w / 2, h / 2);
+        const gr = tg.createRadialGradient(0, 0, 0, 0, 0, 1);
+        gr.addColorStop(0, "#000");
+        gr.addColorStop(0.62, "#000");
+        gr.addColorStop(1, "rgba(0,0,0,0)");
+        tg.fillStyle = gr;
+        tg.fillRect(-1, -1, 2, 2);
+        tg.restore();
+        tg.globalCompositeOperation = "source-over";
+        ctx.save();
+        ctx.translate(cx + ox, cy + oy);
+        ctx.rotate(rot);
+        ctx.drawImage(tmp, -w / 2, -h / 2);
+        ctx.restore();
+      }
+      function warpY(y, jaw) {
+        const H = state.H,
+          i = H.d.inner,
+          y0 = i.y,
+          gap = Math.max(i.h, H.faceH * 0.03),
+          y1 = y0 + gap;
+        if (jaw <= 0 || y <= y0) return y;
+        if (y < y1) return y0 + (y - y0) * (1 + jaw / gap);
+        return y + jaw;
+      }
+      function drawWarped(ctx, ch) {
+        const H = state.H,
+          img = H.img,
+          r = ch.rx,
+          jaw = Math.max(0, r.jaw.x) * H.faceH,
+          sway = r.sway.x;
+        ch.jawPx = jaw;
+        ch.swayPx = sway;
+        if (jaw < 0.5 && Math.abs(sway) < 0.3) {
+          ctx.drawImage(img, 0, 0);
+          return;
+        }
+        const eyeY = H.d.eyeL.cy;
+        for (let y = 0; y < H.h; y += 2) {
+          const sh = Math.min(2, H.h - y),
+            d0 = warpY(y, jaw),
+            d1 = warpY(y + sh, jaw);
+          const dx = sway * Math.pow(Math.max(0, 1 - y / eyeY), 1.5);
+          ctx.drawImage(
+            img,
+            0,
+            y,
+            H.w,
+            sh,
+            dx,
+            d0,
+            H.w,
+            Math.max(0.5, d1 - d0) + 0.6,
+          );
+        }
+      }
+      function P(ch, x, y) {
+        const H = state.H;
+        return [
+          x + ch.swayPx * Math.pow(Math.max(0, 1 - y / H.d.eyeL.cy), 1.5),
+          warpY(y, ch.jawPx),
+        ];
+      }
+      function star(ctx, x, y, R, rot) {
+        ctx.beginPath();
+        for (let i = 0; i < 10; i++) {
+          const a = rot + (i * Math.PI) / 5 - Math.PI / 2,
+            r = i % 2 ? R * 0.45 : R;
+          ctx.lineTo(x + Math.cos(a) * r, y + Math.sin(a) * r);
+        }
+        ctx.closePath();
+      }
+      function poly(ctx, pts, scale = 1) {
+        const cx = pts.reduce((s, p) => s + p[0], 0) / pts.length,
+          cy = pts.reduce((s, p) => s + p[1], 0) / pts.length;
+        ctx.beginPath();
+        pts.forEach(([x, y], i) => {
+          const X = cx + (x - cx) * scale,
+            Y = cy + (y - cy) * scale;
+          i ? ctx.lineTo(X, Y) : ctx.moveTo(X, Y);
+        });
+        ctx.closePath();
+      }
+
+      function eyeEffects(ctx, ch, now) {
+        const H = state.H,
+          r = ch.rx,
+          sh = clamp(r.shock.x),
+          ang = clamp(r.angry.x),
+          tir = clamp(r.tired.x),
+          img = H.img,
+          skin = H.skin;
+        const noseX = H.lm.nose[0];
+        for (const side of ["L", "R"]) {
+          const e = H.d["eye" + side],
+            b = H.d["brow" + side],
+            pts = H.lm["eye" + side];
+          // eyebrows: copy the REAL brow pixels, rotate/lift them (identity preserved)
+          const bAng = ang * 0.38,
+            bUp = -sh * e.h * 0.55,
+            bDown = ang * e.h * 0.35;
+          if (Math.abs(bAng) > 0.02 || Math.abs(bUp) > 0.5 || bDown > 0.5) {
+            ctx.save();
+            ctx.translate(b.cx, b.cy);
+            ctx.scale(b.w * 0.75, b.h * 1.25);
+            const gg = ctx.createRadialGradient(0, 0, 0, 0, 0, 1);
+            gg.addColorStop(0, shade(skin, 1));
+            gg.addColorStop(0.7, shade(skin, 1));
+            gg.addColorStop(
+              1,
+              shade(skin, 1).replace("rgb", "rgba").replace(")", ",0)"),
+            );
+            ctx.fillStyle = gg;
+            ctx.beginPath();
+            ctx.arc(0, 0, 1, 0, 7);
+            ctx.fill();
+            ctx.restore();
+            const sign = b.cx < noseX ? 1 : -1;
+            featherDraw(
+              ctx,
+              img,
+              b.x - b.w * 0.25,
+              b.y - b.h * 1.1,
+              b.w * 1.5,
+              b.h * 3.2,
+              b.cx,
+              b.cy,
+              1,
+              sign * bAng,
+              0,
+              bUp + bDown,
+            );
+          }
+          // eyes
+          if (ch.dizzy) {
+            ctx.save();
+            poly(ctx, pts, 1.12);
+            ctx.clip();
+            ctx.fillStyle = "#fff";
+            ctx.fillRect(e.x - 5, e.y - 5, e.w + 10, e.h + 10);
+            const R = Math.max(e.w, e.h) * 0.55;
+            ctx.strokeStyle = "#222";
+            ctx.lineWidth = Math.max(1.5, R * 0.13);
+            ctx.lineCap = "round";
+            ctx.beginPath();
+            for (let t = 0; t <= Math.PI * 5; t += 0.25) {
+              const rr = (R * t) / (Math.PI * 5),
+                a = t + now * 9 * (side === "L" ? 1 : -1);
+              ctx.lineTo(
+                e.cx + Math.cos(a) * rr,
+                e.cy + Math.sin(a) * rr * (e.h / e.w > 0.3 ? 1 : 1.6),
+              );
+            }
+            ctx.stroke();
+            ctx.restore();
+            ctx.save();
+            poly(ctx, pts, 1.12);
+            ctx.strokeStyle = "rgba(30,20,20,.7)";
+            ctx.lineWidth = Math.max(1.5, e.h * 0.1);
+            ctx.stroke();
+            ctx.restore();
+          } else {
+            if (sh > 0.05) {
+              const k = 1 + 0.34 * sh;
+              featherDraw(
+                ctx,
+                img,
+                e.x - e.w * 0.5,
+                e.y - e.h * 1.3,
+                e.w * 2,
+                e.h * 3.6,
+                e.cx,
+                e.cy,
+                k,
+              );
+            }
+            const close = clamp(tir * 0.55 + ang * 0.22 + 0 * sh);
+            if (close > 0.02) {
+              ctx.save();
+              poly(ctx, pts, 1.04);
+              ctx.clip();
+              ctx.fillStyle = shade(skin, 0.93);
+              const ly = e.y + e.h * close;
+              ctx.fillRect(
+                e.x - 4,
+                e.y - e.h * 0.6,
+                e.w + 8,
+                ly - (e.y - e.h * 0.6),
+              );
+              ctx.strokeStyle = "rgba(35,22,18,.85)";
+              ctx.lineWidth = Math.max(1.5, e.h * 0.14);
+              ctx.beginPath();
+              ctx.moveTo(e.x, ly);
+              ctx.quadraticCurveTo(e.cx, ly + e.h * 0.18, e.x + e.w, ly);
+              ctx.stroke();
+              ctx.restore();
+            }
+          }
+        }
+      }
+      function mouthEffects(ctx, ch) {
+        const H = state.H,
+          i = H.d.inner,
+          jaw = ch.jawPx;
+        if (jaw < 1) return;
+        const gap = Math.max(i.h, H.faceH * 0.03),
+          top = i.y,
+          bot = i.y + gap + jaw,
+          cx = i.cx,
+          rx = Math.max(i.w, H.d.outer.w * 0.5) * 0.52,
+          ry = (bot - top) / 2,
+          cy = (top + bot) / 2;
+        ctx.save();
+        ctx.beginPath();
+        ctx.ellipse(cx, cy, rx, ry, 0, 0, 7);
+        ctx.clip();
+        ctx.fillStyle = "#3b0f14";
+        ctx.fillRect(cx - rx, top, rx * 2, bot - top);
+        const ang = ch.rx.angry.x > 0.6,
+          upTeeth = ang ? ry * 1.4 : ry * 0.5;
+        ctx.fillStyle = "#f3efe8";
+        ctx.fillRect(cx - rx, top, rx * 2, upTeeth);
+        if (ang) {
+          ctx.fillRect(cx - rx, bot - ry * 0.6, rx * 2, ry * 0.6);
+          ctx.strokeStyle = "rgba(60,40,40,.6)";
+          ctx.lineWidth = 1.2;
+          for (let k = -3; k <= 3; k++) {
+            ctx.beginPath();
+            ctx.moveTo(cx + (k * rx) / 3.4, top);
+            ctx.lineTo(cx + (k * rx) / 3.4, bot);
+            ctx.stroke();
+          }
+        } else {
+          ctx.fillStyle = "#d9707a";
+          ctx.beginPath();
+          ctx.ellipse(cx, bot - ry * 0.15, rx * 0.55, ry * 0.5, 0, 0, 7);
+          ctx.fill();
+        }
+        ctx.restore();
+        ctx.strokeStyle = "rgba(60,25,25,.5)";
+        ctx.lineWidth = Math.max(1, H.faceH * 0.004);
+        ctx.beginPath();
+        ctx.ellipse(cx, cy, rx, ry, 0, 0, 7);
+        ctx.stroke();
+      }
+      function bandage(ctx, x, y, w, rot) {
+        const h = w * 0.34;
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(rot);
+        ctx.shadowColor = "rgba(0,0,0,.3)";
+        ctx.shadowBlur = w * 0.04;
+        ctx.shadowOffsetY = w * 0.02;
+        ctx.fillStyle = "#e9c7a0";
+        ctx.strokeStyle = "#b8926c";
+        ctx.lineWidth = w * 0.012;
+        ctx.beginPath();
+        ctx.roundRect(-w / 2, -h / 2, w, h, h * 0.35);
+        ctx.fill();
+        ctx.stroke();
+        ctx.shadowColor = "transparent";
+        ctx.fillStyle = "#f6e4cf";
+        ctx.fillRect(-w * 0.17, -h / 2 + h * 0.06, w * 0.34, h * 0.88);
+        ctx.fillStyle = "rgba(150,110,80,.35)";
+        for (let i = -4; i <= 4; i++)
+          for (let j = -1; j <= 1; j++) {
+            if (Math.abs(i * w * 0.06) < w * 0.2) continue;
+            ctx.beginPath();
+            ctx.arc(i * w * 0.055, j * h * 0.28, w * 0.01, 0, 7);
+            ctx.fill();
+          }
+        ctx.restore();
+      }
+      function bruise(ctx, x, y, R) {
+        const g = ctx.createRadialGradient(x, y, 0, x, y, R);
+        g.addColorStop(0, "rgba(105,50,140,.55)");
+        g.addColorStop(0.45, "rgba(140,70,150,.32)");
+        g.addColorStop(0.75, "rgba(190,170,60,.18)");
+        g.addColorStop(1, "rgba(190,170,60,0)");
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.ellipse(x, y, R, R * 0.8, 0.4, 0, 7);
+        ctx.fill();
+      }
+      function overlays(ctx, ch, now) {
+        const H = state.H,
+          lm = H.lm,
+          fw = H.faceW,
+          fh = H.faceH,
+          L = ch.hits,
+          Pt = (x, y) => P(ch, x, y);
+        if (L >= 2) {
+          bruise(ctx, ...Pt(lm.cheekR[0], lm.cheekR[1]), fw * 0.1);
+        }
+        if (L >= 4) {
+          bruise(
+            ctx,
+            ...Pt(H.d.eyeL.cx, H.d.eyeL.y + H.d.eyeL.h * 1.9),
+            fw * 0.09,
+          );
+          bruise(ctx, ...Pt(H.d.browR.cx, H.d.browR.y - fh * 0.08), fw * 0.09);
+        }
+        if (L >= 5) {
+          bruise(ctx, ...Pt(lm.chin[0], lm.chin[1] - fh * 0.08), fw * 0.08);
+        }
+        if (L >= 3) {
+          bandage(
+            ctx,
+            ...Pt(H.d.browR.cx + fw * 0.05, H.d.browR.y - fh * 0.11),
+            fw * 0.3,
+            -0.35,
+          );
+        }
+        if (L >= 4) {
+          bandage(
+            ctx,
+            ...Pt(lm.cheekL[0] + fw * 0.02, lm.cheekL[1] + fh * 0.03),
+            fw * 0.27,
+            0.5,
+          );
+        }
+        if (L >= 5) {
+          bandage(
+            ctx,
+            ...Pt(lm.bridge[0], lm.bridge[1] + fh * 0.08),
+            fw * 0.24,
+            0.45,
+          );
+          bandage(
+            ctx,
+            ...Pt(lm.bridge[0], lm.bridge[1] + fh * 0.08),
+            fw * 0.24,
+            -0.45,
+          );
+          bandage(
+            ctx,
+            ...Pt(lm.chin[0] - fw * 0.06, lm.chin[1] - fh * 0.1),
+            fw * 0.2,
+            -0.25,
+          );
+        }
+        if (ch.mark && ch.markA > 0.01) {
+          const m = ch.mark,
+            g = ctx.createRadialGradient(m.x, m.y, 0, m.x, m.y, fw * 0.11);
+          g.addColorStop(0, `rgba(230,30,40,${0.55 * ch.markA})`);
+          g.addColorStop(1, "rgba(230,30,40,0)");
+          ctx.fillStyle = g;
+          ctx.beginPath();
+          ctx.arc(m.x, m.y, fw * 0.11, 0, 7);
+          ctx.fill();
+        }
+        if (ch.dizzy) {
+          const cx = lm.nose[0],
+            cy = Math.max(0, H.d.browL.y - fh * 0.35),
+            n = 5;
+          for (let i = 0; i < n; i++) {
+            const a = ch.starT * 3 + (i * Math.PI * 2) / n;
+            ctx.fillStyle = i % 2 ? "#ffd23f" : "#fff3a0";
+            star(
+              ctx,
+              cx + Math.cos(a) * fw * 0.55,
+              cy + Math.sin(a) * fh * 0.08,
+              fw * 0.07,
+              a * 2,
+            );
+            ctx.fill();
+          }
+        }
+      }
+      function drawHead(ctx, ch, now) {
+        const H = state.H,
+          a = state.adj,
+          s = (FACE_UNITS * a.scale) / H.faceH,
+          r = ch.rx;
+        ctx.save();
+        ctx.translate(
+          a.dx + r.back.x * 0.25,
+          -a.neck + a.dy + Math.max(0, -r.back.x) * 0.1,
+        );
+        ctx.rotate(
+          (a.rot * Math.PI) / 180 +
+            r.tilt.x +
+            (ch.dizzy ? Math.sin(now * 6) * 0.09 : 0),
+        );
+        ctx.scale(s, s);
+        ctx.scale(1 + 0.14 * r.sq.x, 1 - 0.18 * r.sq.x);
+        ctx.translate(-H.chin[0], -H.chin[1]);
+        ch.headM = ctx.getTransform();
+        drawWarped(ctx, ch);
+        eyeEffects(ctx, ch, now);
+        mouthEffects(ctx, ch);
+        overlays(ctx, ch, now);
+        ctx.restore();
+      }
+
+      /* ============================================================ PROCEDURAL ANIME BODY (swap for your own art) */
+      function drawBody(ctx) {
+        const H = state.H,
+          a = state.adj,
+          skin = H.skin,
+          navy = "#2b3a72",
+          line = "#161a33";
+        ctx.save();
+        ctx.lineJoin = "round";
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = line;
+        // arms
+        for (const sx of [-1, 1]) {
+          ctx.fillStyle = navy;
+          ctx.beginPath();
+          ctx.roundRect(sx > 0 ? 96 : -146, 10, 50, 150, 24);
+          ctx.fill();
+          ctx.stroke();
+          ctx.fillStyle = "#fff";
+          ctx.fillRect(sx > 0 ? 98 : -144, 118, 46, 12);
+        }
+        // torso
+        ctx.fillStyle = navy;
+        ctx.beginPath();
+        ctx.moveTo(-42, -10);
+        ctx.quadraticCurveTo(-112, 0, -122, 50);
+        ctx.lineTo(-126, 220);
+        ctx.lineTo(126, 220);
+        ctx.lineTo(122, 50);
+        ctx.quadraticCurveTo(112, 0, 42, -10);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+        // neck (drawn before collar, tucked under head)
+        const ng = ctx.createLinearGradient(0, -a.neck - 30, 0, 6);
+        ng.addColorStop(0, shade(skin, 0.78));
+        ng.addColorStop(0.35, shade(skin, 0.95));
+        ng.addColorStop(1, shade(skin, 0.9));
+        ctx.fillStyle = ng;
+        ctx.beginPath();
+        ctx.roundRect(-30 + a.dx * 0.2, -a.neck - 34, 60, a.neck + 46, 14);
+        ctx.fill();
+        // sailor collar + ribbon
+        ctx.fillStyle = "#f4f6fb";
+        ctx.beginPath();
+        ctx.moveTo(-44, -12);
+        ctx.lineTo(0, 52);
+        ctx.lineTo(-92, 38);
+        ctx.quadraticCurveTo(-100, 10, -58, -8);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(44, -12);
+        ctx.lineTo(0, 52);
+        ctx.lineTo(92, 38);
+        ctx.quadraticCurveTo(100, 10, 58, -8);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+        ctx.fillStyle = shade(skin, 0.9);
+        ctx.beginPath();
+        ctx.moveTo(-34, -10);
+        ctx.lineTo(0, 38);
+        ctx.lineTo(34, -10);
+        ctx.closePath();
+        ctx.fill();
+        ctx.fillStyle = "#e0334f";
+        ctx.beginPath();
+        ctx.moveTo(0, 40);
+        ctx.lineTo(-30, 28);
+        ctx.lineTo(-30, 58);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(0, 40);
+        ctx.lineTo(30, 28);
+        ctx.lineTo(30, 58);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(0, 41, 8, 0, 7);
+        ctx.fill();
+        ctx.stroke();
+        ctx.restore();
+      }
+      function drawCharacter(ctx, ch, now) {
+        drawBody(ctx);
+        drawHead(ctx, ch, now);
+      }
+
+      /* ============================================================ PREVIEW */
+      const pv = { ch: null, clock: 0 };
+      const pctx = $("#pv").getContext("2d");
+      function openPreview(f) {
+        pv.ch = makeChar();
+        pv.clock = 0;
+        const a = state.adj;
+        a.scale = 1;
+        a.dx = a.dy = a.rot = 0;
+        a.neck = 40;
+        for (const k of ["scale", "dx", "dy", "rot", "neck"])
+          $("#a-" + k).value = a[k];
+        syncSliders();
+        $("#headImg").src = f.png;
+        $("#checks").innerHTML =
+          f.checks
+            .map(
+              (c) =>
+                `<div class="chk ${c.ok ? "ok" : "bad"}"><span>${c.ok ? "✔" : "✖"}</span><span>${c.name}</span></div>`,
+            )
+            .join("") +
+          f.info
+            .map(
+              (t) =>
+                `<div class="chk" style="color:var(--mut)"><span>ℹ</span><span>${t}</span></div>`,
+            )
+            .join("");
+        $("#force").style.display = f.passed ? "none" : "block";
+        $("#forceChk").checked = false;
+        $("#start").disabled = !f.passed;
+        show("preview");
+      }
+      $("#forceChk").onchange = (e) =>
+        ($("#start").disabled = !e.target.checked);
+      function syncSliders() {
+        const a = state.adj;
+        $("#v-scale").textContent = a.scale.toFixed(2) + "×";
+        $("#v-dx").textContent = a.dx + " px";
+        $("#v-dy").textContent = a.dy + " px";
+        $("#v-rot").textContent = a.rot + "°";
+        $("#v-neck").textContent = a.neck + " px";
+      }
+      for (const k of ["scale", "dx", "dy", "rot", "neck"])
+        $("#a-" + k).oninput = (e) => {
+          state.adj[k] = +e.target.value;
+          syncSliders();
+        };
+      const TESTS = [
+        [
+          "Normal",
+          () => {
+            pv.ch = makeChar();
+          },
+        ],
+        ["Shock", () => forceMood({ shock: 1, jaw: 0.11 })],
+        ["Angry", () => forceMood({ angry: 1, jaw: 0.03 })],
+        ["Dizzy", () => forceMood({ dizzy: true, shock: 0.2, jaw: 0.03 })],
+        ["Tired", () => forceMood({ tired: 1, jaw: 0.04 })],
+        ["Hit 1", () => hitTo(1)],
+        ["Hit 2", () => hitTo(2)],
+        ["Hit 3", () => hitTo(3)],
+        ["Hit 4", () => hitTo(4)],
+        ["Hit 5", () => hitTo(5)],
+      ];
+      {
+        const chip = (t, i) =>
+          `<button class="chip" data-i="${i}">${t[0]}</button>`;
+        $("#tests").innerHTML =
+          `<div class="grp"><span>Expressions</span><div>${TESTS.slice(0, 5)
+            .map((t, i) => chip(t, i))
+            .join(
+              "",
+            )}</div></div><div class="grp"><span>Damage stages</span><div>${TESTS.slice(
+            5,
+          )
+            .map((t, i) => chip(t, i + 5))
+            .join("")}</div></div>`;
+      }
+      $("#tests").onclick = (e) => {
+        const i = e.target.dataset.i;
+        if (i !== undefined) TESTS[i][1]();
+      };
+      function forceMood(m) {
+        const ch = pv.ch;
+        ch.force = m;
+        ch.markA = 0;
+      }
+      function hitTo(n) {
+        pv.ch = makeChar();
+        const ch = pv.ch;
+        for (let i = 0; i < n; i++) applyHit(ch, pv.clock, null);
+      }
+      function stepPreview(dt) {
+        pv.clock += dt;
+        stepChar(pv.ch, dt, pv.clock);
+      }
+      function drawPreview() {
+        const c = $("#pv"),
+          g = pctx;
+        g.clearRect(0, 0, c.width, c.height);
+        const bg = g.createLinearGradient(0, 0, 0, c.height);
+        bg.addColorStop(0, "#1b1245");
+        bg.addColorStop(1, "#08061a");
+        g.fillStyle = bg;
+        g.fillRect(0, 0, c.width, c.height);
+        const sp = g.createRadialGradient(240, 430, 10, 240, 430, 260);
+        sp.addColorStop(0, "rgba(139,92,255,.45)");
+        sp.addColorStop(1, "rgba(139,92,255,0)");
+        g.fillStyle = sp;
+        g.fillRect(0, 0, c.width, c.height);
+        g.save();
+        g.translate(240, 420);
+        g.scale(1.45, 1.45);
+        g.beginPath();
+        g.rect(-170, -420, 340, 640);
+        g.clip();
+        drawCharacter(g, pv.ch, pv.clock);
+        g.restore();
+      }
+      $("#start").onclick = () => {
+        show("game");
+        resetGame();
+      };
+
+      /* ============================================================ SOUND (Web Audio, synthesized) */
+      const Sfx = (() => {
+        let ac,
+          master,
+          mus,
+          noise,
+          on = true,
+          musOn = true,
+          timer = null,
+          next = 0,
+          step = 0;
+        function init() {
+          if (ac) {
+            ac.resume();
+            return;
+          }
+          ac = new (window.AudioContext || window.webkitAudioContext)();
+          master = ac.createGain();
+          master.gain.value = on ? 0.85 : 0;
+          master.connect(ac.destination);
+          mus = ac.createGain();
+          mus.gain.value = musOn ? 0.09 : 0;
+          mus.connect(master);
+          noise = ac.createBuffer(1, ac.sampleRate, ac.sampleRate);
+          const d = noise.getChannelData(0);
+          for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+        }
+        function tone(
+          f0,
+          f1,
+          dur,
+          g = 0.3,
+          type = "sine",
+          dest = null,
+          when = 0,
+        ) {
+          if (!ac) return;
+          const t = ac.currentTime + when,
+            o = ac.createOscillator(),
+            v = ac.createGain();
+          o.type = type;
+          o.frequency.setValueAtTime(f0, t);
+          o.frequency.exponentialRampToValueAtTime(Math.max(20, f1), t + dur);
+          v.gain.setValueAtTime(g, t);
+          v.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+          o.connect(v);
+          v.connect(dest || master);
+          o.start(t);
+          o.stop(t + dur + 0.02);
+        }
+        function nz(dur, f0, f1, g = 0.3, q = 1, type = "bandpass") {
+          if (!ac) return;
+          const t = ac.currentTime,
+            s = ac.createBufferSource(),
+            f = ac.createBiquadFilter(),
+            v = ac.createGain();
+          s.buffer = noise;
+          f.type = type;
+          f.Q.value = q;
+          f.frequency.setValueAtTime(f0, t);
+          f.frequency.exponentialRampToValueAtTime(f1, t + dur);
+          v.gain.setValueAtTime(g, t);
+          v.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+          s.connect(f);
+          f.connect(v);
+          v.connect(master);
+          s.start(t);
+          s.stop(t + dur);
+        }
+        const chords = [
+          [0, 4, 7, 12],
+          [5, 9, 12, 17],
+          [7, 11, 14, 19],
+          [3, 7, 10, 15],
+        ];
+        function sched() {
+          if (!ac) return;
+          while (next < ac.currentTime + 0.25) {
+            const w = Math.max(0, next - ac.currentTime),
+              ch = chords[Math.floor(step / 8) % 4],
+              n = ch[step % 4],
+              f = 220 * Math.pow(2, n / 12);
+            tone(f, f, 0.12, 0.5, "square", mus, w);
+            if (step % 2 === 0)
+              tone(f / 4, f / 4, 0.16, 0.8, "triangle", mus, w);
+            next += 0.14;
+            step++;
+          }
+        }
+        return {
+          init,
+          swing() {
+            nz(0.16, 500, 2600, 0.22, 1.2);
+          },
+          hit(L) {
+            tone(190, 38, 0.24, 0.75);
+            nz(0.14, 3200, 300, 0.5, 0.7, "lowpass");
+            tone(900, 260, 0.08, 0.22, "square");
+            if (L >= 3) tone(120, 60, 0.3, 0.4, "sawtooth");
+          },
+          voice(L) {
+            tone(320 + L * 35, 150, 0.3, 0.24, "triangle");
+            tone(560, 240, 0.22, 0.14, "sawtooth");
+          },
+          dizzy() {
+            for (let i = 0; i < 7; i++)
+              tone(
+                i % 2 ? 420 : 700,
+                i % 2 ? 460 : 640,
+                0.12,
+                0.16,
+                "sine",
+                null,
+                i * 0.09,
+              );
+          },
+          bandage() {
+            nz(0.22, 7000, 1800, 0.28, 2, "highpass");
+            tone(500, 700, 0.06, 0.12, "square", null, 0.12);
+          },
+          combo(n) {
+            for (let i = 0; i < Math.min(n, 6); i++)
+              tone(
+                440 * Math.pow(2, (i * 2) / 12),
+                440 * Math.pow(2, (i * 2) / 12),
+                0.1,
+                0.18,
+                "square",
+                null,
+                i * 0.06,
+              );
+          },
+          defeat() {
+            tone(500, 90, 0.9, 0.3, "sawtooth");
+            tone(380, 70, 1, 0.2, "triangle");
+          },
+          miss() {
+            nz(0.12, 900, 200, 0.18, 1, "lowpass");
+          },
+          set(v) {
+            on = v;
+            if (ac) master.gain.value = v ? 0.85 : 0;
+          },
+          setMusic(v) {
+            musOn = v;
+            if (ac) mus.gain.value = v ? 0.09 : 0;
+          },
+          start() {
+            init();
+            if (timer) return;
+            next = ac.currentTime + 0.05;
+            step = 0;
+            timer = setInterval(sched, 80);
+          },
+          stop() {
+            clearInterval(timer);
+            timer = null;
+          },
+          get on() {
+            return on;
+          },
+          get musOn() {
+            return musOn;
+          },
+        };
+      })();
+      $("#b-snd").onclick = (e) => {
+        Sfx.set(!Sfx.on);
+        e.target.textContent = "SFX " + (Sfx.on ? "on" : "off");
+        e.target.classList.toggle("off", !Sfx.on);
+      };
+      $("#b-mus").onclick = (e) => {
+        Sfx.setMusic(!Sfx.musOn);
+        e.target.textContent = "Music " + (Sfx.musOn ? "on" : "off");
+        e.target.classList.toggle("off", !Sfx.musOn);
+      };
+
+      /* ============================================================ GAME */
+      const GW = 960,
+        GH = 680,
+        gc = $("#gc"),
+        ctx = gc.getContext("2d");
+      const HOLES = [];
+      for (const y of [330, 600])
+        for (const x of [190, 480, 770]) HOLES.push({ x, y });
+      const CH_S = 0.82,
+        HRX = 112,
+        HRY = 32;
+      const G = {
+        sx: 0,
+        sy: 0,
+        phase: "idle",
+        time: 60,
+        score: 0,
+        hits: 0,
+        combo: 0,
+        lastHitT: -9,
+        now: 0,
+        freeze: 0,
+        shake: 0,
+        parts: [],
+        texts: [],
+        flashes: [],
+        ch: null,
+        lastHole: -1,
+        sinceStart: 0,
+      };
+      const hm = {
+        x: GW / 2,
+        y: GH / 2,
+        tx: GW / 2,
+        ty: GH / 2,
+        angle: 0.75,
+        swing: null,
+      };
+
+      function resetGame() {
+        Object.assign(G, {
+          phase: "idle",
+          time: 60,
+          score: 0,
+          hits: 0,
+          combo: 0,
+          lastHitT: -9,
+          now: 0,
+          freeze: 0,
+          shake: 0,
+          parts: [],
+          texts: [],
+          flashes: [],
+          ch: makeChar(),
+          lastHole: -1,
+          sinceStart: 0,
+        });
+        hm.swing = null;
+        hm.angle = 0.75;
+        updateHud();
+        Sfx.stop();
+        overlay(
+          "Ready?",
+          `Smack the head when it pops up.<br>Chain hits for combo bonus.<br><span class="kb">CLICK</span> / <span class="kb">TAP</span> to swing · 5 hits = KO`,
+          "Play",
+          startGame,
+        );
+      }
+      function overlay(t, s, b, fn) {
+        $("#ov-t").textContent = t;
+        $("#ov-s").innerHTML = s;
+        $("#ov-b").textContent = b;
+        $("#ov-b").onclick = fn;
+        $("#ov").classList.remove("off");
+      }
+      function startGame() {
+        Sfx.init();
+        Sfx.start();
+        G.phase = "playing";
+        $("#ov").classList.add("off");
+      }
+      function bestScore(s) {
+        let b = 0;
+        try {
+          b = +localStorage.getItem("hs-best") || 0;
+          if (s > b) {
+            b = s;
+            localStorage.setItem("hs-best", b);
+          }
+        } catch (e) {
+          b = Math.max(b, s);
+        }
+        return b;
+      }
+      function endGame() {
+        G.phase = "over";
+        Sfx.stop();
+        const best = bestScore(G.score);
+        overlay(
+          "Time's up",
+          `<div class="res"><div><small>Score</small><b>${G.score.toLocaleString()}</b></div><div><small>Hits</small><b>${G.hits}</b></div><div><small>Best</small><b>${best.toLocaleString()}</b></div></div>`,
+          "Play again",
+          () => {
+            resetGame();
+            startGame();
+          },
+        );
+      }
+      $("#b-restart").onclick = () => {
+        resetGame();
+        startGame();
+      };
+      $("#b-menu").onclick = () => {
+        Sfx.stop();
+        G.phase = "idle";
+        show("preview");
+      };
+      let lastCombo = 0;
+      function hudTime() {
+        const t = Math.max(0, G.time);
+        $("#h-time").textContent = Math.ceil(t);
+        $("#h-bar").style.width = (t / 60) * 100 + "%";
+        $("#h-timecard").classList.toggle("low", t <= 10 && t > 0);
+      }
+      function updateHud() {
+        $("#h-score").textContent = G.score.toLocaleString();
+        $("#h-hits").textContent = G.hits;
+        const c = $("#h-combo");
+        c.textContent = G.combo > 1 ? "x" + G.combo : "–";
+        if (G.combo > lastCombo && G.combo > 1) {
+          c.classList.remove("bump");
+          void c.offsetWidth;
+          c.classList.add("bump");
+        }
+        lastCombo = G.combo;
+        const n = G.ch ? G.ch.hits : 0;
+        document
+          .querySelectorAll("#h-pips i")
+          .forEach((p, i) => p.classList.toggle("on", i < n));
+        hudTime();
+      }
+
+      function toCanvas(e) {
+        const r = gc.getBoundingClientRect();
+        return [
+          ((e.clientX - r.left) * GW) / r.width,
+          ((e.clientY - r.top) * GH) / r.height,
+        ];
+      }
+      gc.addEventListener("pointermove", (e) => {
+        [hm.tx, hm.ty] = toCanvas(e);
+      });
+      gc.addEventListener("pointerdown", (e) => {
+        e.preventDefault();
+        [hm.tx, hm.ty] = toCanvas(e);
+        if (G.phase !== "playing") return;
+        if (hm.swing) return; // one swing at a time = one hit per click
+        hm.x = hm.tx;
+        hm.y = hm.ty;
+        hm.swing = { t: 0, px: hm.tx, py: hm.ty, done: false };
+        Sfx.swing();
+      });
+
+      function hitTest(ch, px, py) {
+        if (ch.state === "hidden" || ch.rise < 0.45 || !ch.headM || !ch.hole)
+          return null;
+        if (py > ch.hole.y + 10) return null; // only the part above the hole rim is visible
+        const p = ch.headM.inverse().transformPoint(new DOMPoint(px, py));
+        const R = 5;
+        let best = alphaAt(p.x, p.y);
+        for (const [dx, dy] of [
+          [R, 0],
+          [-R, 0],
+          [0, R],
+          [0, -R],
+        ])
+          best = Math.max(best, alphaAt(p.x + dx, p.y + dy) * 0.9);
+        return best > 110 ? { x: p.x, y: p.y } : null;
+      }
+      function burst(x, y, n, kind) {
+        for (let i = 0; i < n; i++) {
+          const a = Math.random() * 7,
+            v = 120 + Math.random() * 420;
+          G.parts.push({
+            x,
+            y,
+            vx: Math.cos(a) * v,
+            vy: Math.sin(a) * v - 120,
+            life: 0.5 + Math.random() * 0.5,
+            max: 1,
+            size: 3 + Math.random() * 7,
+            kind,
+            c:
+              kind === "star"
+                ? "#ffd23f"
+                : kind === "dust"
+                  ? "#a98a62"
+                  : "#fff",
+          });
+        }
+      }
+      function text(x, y, t, c = "#fff", sz = 44) {
+        G.texts.push({ x, y, t, c, sz, life: 0.9 });
+      }
+
+      function resolveSwing(px, py) {
+        const ch = G.ch,
+          hit = hitTest(ch, px, py);
+        if (!hit) {
+          G.combo = 0;
+          burst(px, py + 18, 8, "dust");
+          Sfx.miss();
+          updateHud();
+          return;
+        }
+        const L = ch.hits + 1;
+        G.combo = G.now - G.lastHitT < 2.2 ? G.combo + 1 : 1;
+        G.lastHitT = G.now;
+        G.hits++;
+        G.score += 100 * Math.min(G.combo, 6) + (L === 5 ? 500 : 0);
+        applyHit(ch, G.now, hit);
+        ch.upT = Math.max(ch.upT, ch.defeated ? 1.7 : 1.0);
+        G.freeze = 0.075;
+        G.shake = 10 + L * 3;
+        G.flashes.push({ x: px, y: py, life: 0.18 });
+        burst(px, py, 14 + L * 3, "spark");
+        if (L >= 2) burst(px, py, 5, "star");
+        text(
+          px,
+          py - 70,
+          ["POW!", "BONK!", "WHAM!", "CRUNCH!", "K.O.!"][L - 1],
+          L === 5 ? "#ff4d6d" : "#ffe14a",
+          44 + L * 4,
+        );
+        Sfx.hit(L);
+        Sfx.voice(L);
+        if (L === 3 || L === 4) setTimeout(() => Sfx.dizzy(), 180);
+        if (L >= 3) setTimeout(() => Sfx.bandage(), 420);
+        if (G.combo > 1) {
+          setTimeout(() => Sfx.combo(G.combo), 250);
+          text(px, py + 44, "COMBO x" + G.combo, "#35e0ff", 30);
+        }
+        if (L === 5) setTimeout(() => Sfx.defeat(), 300);
+        updateHud();
+      }
+      function stepGame(rdt) {
+        let dt = rdt;
+        if (G.freeze > 0) {
+          G.freeze -= rdt;
+          dt = 0;
+        }
+        G.now += dt;
+        const ch = G.ch;
+        if (G.phase === "playing") {
+          G.time -= dt;
+          G.sinceStart += dt;
+          if (G.time <= 0) {
+            G.time = 0;
+            endGame();
+          }
+          if (G.combo && G.now - G.lastHitT > 2.2) {
+            G.combo = 0;
+          }
+          const diff = clamp(G.sinceStart / 60);
+          if (ch.state === "hidden") {
+            ch.wait -= dt;
+            if (ch.wait <= 0) {
+              let i;
+              do {
+                i = Math.floor(Math.random() * HOLES.length);
+              } while (i === G.lastHole);
+              G.lastHole = i;
+              ch.hole = HOLES[i];
+              ch.state = "rising";
+              ch.rise = 0;
+              ch.upT = 1.9 - 0.8 * diff + Math.random() * 0.5;
+            }
+          } else if (ch.state === "rising") {
+            ch.rise += dt / 0.22;
+            if (ch.rise >= 1) {
+              ch.rise = 1;
+              ch.state = "up";
+            }
+          } else if (ch.state === "up") {
+            ch.upT -= dt;
+            if (ch.upT <= 0 && G.now - ch.lastHit > 0.7) ch.state = "falling";
+          } else if (ch.state === "falling") {
+            ch.rise -= dt / 0.26;
+            if (ch.rise <= 0) {
+              ch.rise = 0;
+              ch.state = "hidden";
+              ch.wait = 0.35 + Math.random() * 0.5;
+              if (ch.defeated || ch.hits >= 5) {
+                const f = makeChar();
+                f.wait = ch.wait;
+                f.lastHit = -99;
+                Object.assign(ch, {
+                  hits: 0,
+                  defeated: false,
+                  mark: null,
+                  markA: 0,
+                  dizzy: false,
+                  force: null,
+                  lastHit: -99,
+                });
+                for (const k in ch.rx) ch.rx[k] = f.rx[k];
+              }
+            }
+          }
+          if (ch.hole) {
+            const e = 1 - Math.pow(1 - ch.rise, 3),
+              riseY = ch.hole.y - 70 * CH_S,
+              hidY = ch.hole.y + 300 * CH_S;
+            ch.y = lerp(hidY, riseY, e);
+          }
+        }
+        stepChar(ch, dt, G.now);
+        // hammer
+        if (hm.swing) {
+          const s = hm.swing;
+          s.t += dt;
+          if (s.t < 0.07) hm.angle = lerp(0.75, -0.06, Math.pow(s.t / 0.07, 2));
+          else {
+            hm.angle = lerp(-0.06, 0.75, clamp((s.t - 0.07) / 0.22));
+            if (!s.done) {
+              s.done = true;
+              resolveSwing(s.px, s.py);
+            }
+          }
+          if (s.t > 0.32) hm.swing = null;
+        } else {
+          hm.x += (hm.tx - hm.x) * Math.min(1, rdt * 24);
+          hm.y += (hm.ty - hm.y) * Math.min(1, rdt * 24);
+        }
+        for (const p of G.parts) {
+          p.life -= dt;
+          p.x += p.vx * dt;
+          p.y += p.vy * dt;
+          p.vy += 900 * dt;
+        }
+        G.parts = G.parts.filter((p) => p.life > 0);
+        for (const t of G.texts) {
+          t.life -= dt;
+          t.y -= 50 * dt;
+        }
+        G.texts = G.texts.filter((t) => t.life > 0);
+        for (const f of G.flashes) f.life -= dt;
+        G.flashes = G.flashes.filter((f) => f.life > 0);
+        G.shake = Math.max(0, G.shake - dt * 55);
+        const shk = G.shake > 0.3 ? G.shake : 0;
+        G.sx = shk ? (Math.random() - 0.5) * shk * 1.5 : 0;
+        G.sy = shk ? (Math.random() - 0.5) * shk * 1.1 : 0;
+        if (G.phase === "playing") hudTime();
+      }
+      const FONT_D = 'Bungee,Impact,"Arial Black",sans-serif';
+      const bgc = document.createElement("canvas");
+      bgc.width = GW;
+      bgc.height = GH;
+      (function () {
+        const g = bgc.getContext("2d");
+        let s = g.createLinearGradient(0, 0, 0, GH);
+        s.addColorStop(0, "#1d1350");
+        s.addColorStop(0.5, "#120c34");
+        s.addColorStop(1, "#07051a");
+        g.fillStyle = s;
+        g.fillRect(0, 0, GW, GH);
+        let seed = 7;
+        const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+        for (let i = 0; i < 70; i++) {
+          g.fillStyle = `rgba(255,255,255,${0.12 + rnd() * 0.35})`;
+          g.beginPath();
+          g.arc(rnd() * GW, rnd() * 200, rnd() * 1.4 + 0.3, 0, 7);
+          g.fill();
+        }
+        for (const x of [190, 480, 770]) {
+          const b = g.createLinearGradient(0, 0, 0, GH);
+          b.addColorStop(0, "rgba(139,92,255,.28)");
+          b.addColorStop(1, "rgba(139,92,255,0)");
+          g.fillStyle = b;
+          g.beginPath();
+          g.moveTo(x - 26, 0);
+          g.lineTo(x + 26, 0);
+          g.lineTo(x + 230, GH);
+          g.lineTo(x - 230, GH);
+          g.closePath();
+          g.fill();
+        }
+        const hz = 200;
+        g.lineWidth = 1.2;
+        for (let i = 0; i <= 16; i++) {
+          const y = hz + Math.pow(i / 16, 2) * (GH - hz);
+          g.strokeStyle = `rgba(139,92,255,${0.1 + (i / 16) * 0.28})`;
+          g.beginPath();
+          g.moveTo(0, y);
+          g.lineTo(GW, y);
+          g.stroke();
+        }
+        for (let k = -14; k <= 14; k++) {
+          g.strokeStyle = "rgba(139,92,255,.22)";
+          g.beginPath();
+          g.moveTo(480 + k * 22, hz);
+          g.lineTo(480 + k * 150, GH);
+          g.stroke();
+        }
+        const hg = g.createLinearGradient(0, hz - 40, 0, hz + 90);
+        hg.addColorStop(0, "rgba(255,61,127,0)");
+        hg.addColorStop(0.4, "rgba(255,61,127,.20)");
+        hg.addColorStop(1, "rgba(255,61,127,0)");
+        g.fillStyle = hg;
+        g.fillRect(0, hz - 40, GW, 130);
+        const v = g.createRadialGradient(
+          GW / 2,
+          GH / 2,
+          GH * 0.35,
+          GW / 2,
+          GH / 2,
+          GW * 0.75,
+        );
+        v.addColorStop(0, "rgba(0,0,0,0)");
+        v.addColorStop(1, "rgba(0,0,0,.6)");
+        g.fillStyle = v;
+        g.fillRect(0, 0, GW, GH);
+      })();
+      function rimArc(h, a0, a1, rgb, rx, ry, w) {
+        ctx.lineCap = "round";
+        ctx.strokeStyle = `rgba(${rgb},.16)`;
+        ctx.lineWidth = w * 2.6;
+        ctx.beginPath();
+        ctx.ellipse(h.x, h.y, rx, ry, 0, a0, a1);
+        ctx.stroke();
+        ctx.strokeStyle = `rgba(${rgb},.38)`;
+        ctx.lineWidth = w * 1.5;
+        ctx.beginPath();
+        ctx.ellipse(h.x, h.y, rx, ry, 0, a0, a1);
+        ctx.stroke();
+        ctx.strokeStyle = `rgba(${rgb},1)`;
+        ctx.lineWidth = w * 0.55;
+        ctx.beginPath();
+        ctx.ellipse(h.x, h.y, rx, ry, 0, a0, a1);
+        ctx.stroke();
+      }
+      function drawHole(h, ch) {
+        const act = !!(ch && ch.hole === h && ch.state !== "hidden"),
+          hot = act ? clamp(1 - (G.now - ch.lastHit) / 0.55) : 0,
+          rgb = hot > 0.05 ? "255,92,132" : "53,224,255";
+        ctx.save();
+        if (act) ctx.translate(G.sx, G.sy); // only this hole + its character vibrate
+        let g = ctx.createRadialGradient(
+          h.x,
+          h.y + 14,
+          10,
+          h.x,
+          h.y + 14,
+          HRX + 80,
+        );
+        g.addColorStop(0, `rgba(${rgb},${0.2 + hot * 0.25})`);
+        g.addColorStop(1, `rgba(${rgb},0)`);
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.ellipse(h.x, h.y + 14, HRX + 80, HRY + 42, 0, 0, 7);
+        ctx.fill();
+        g = ctx.createLinearGradient(0, h.y - HRY - 14, 0, h.y + HRY + 24);
+        g.addColorStop(0, "#403a72");
+        g.addColorStop(1, "#14112b");
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.ellipse(h.x, h.y + 8, HRX + 28, HRY + 17, 0, 0, 7);
+        ctx.fill();
+        ctx.strokeStyle = "rgba(190,180,255,.28)";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        g = ctx.createRadialGradient(h.x, h.y - 5, 4, h.x, h.y, HRX);
+        g.addColorStop(0, "#000");
+        g.addColorStop(0.72, "#06040f");
+        g.addColorStop(1, "#1d1745");
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.ellipse(h.x, h.y, HRX, HRY, 0, 0, 7);
+        ctx.fill();
+        rimArc(h, Math.PI, 2 * Math.PI, rgb, HRX + 2, HRY + 1, 5); // back rim (behind the character)
+        if (act) {
+          ctx.save();
+          ctx.beginPath();
+          ctx.rect(0, 0, GW, h.y);
+          ctx.ellipse(h.x, h.y, HRX, HRY, 0, 0, 7);
+          ctx.clip();
+          ctx.translate(h.x, ch.y);
+          ctx.scale(CH_S, CH_S);
+          drawCharacter(ctx, ch, G.now);
+          ctx.restore();
+        }
+        ctx.strokeStyle = "#2e2961";
+        ctx.lineWidth = 13;
+        ctx.lineCap = "round";
+        ctx.beginPath();
+        ctx.ellipse(
+          h.x,
+          h.y,
+          HRX + 5,
+          HRY + 3,
+          0,
+          0.03 * Math.PI,
+          0.97 * Math.PI,
+        );
+        ctx.stroke();
+        rimArc(h, 0.05 * Math.PI, 0.95 * Math.PI, rgb, HRX + 8, HRY + 5, 4); // front rim (in front of the character)
+        ctx.strokeStyle = "rgba(255,255,255,.16)";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.ellipse(
+          h.x,
+          h.y + 2,
+          HRX + 5,
+          HRY + 3,
+          0,
+          0.2 * Math.PI,
+          0.8 * Math.PI,
+        );
+        ctx.stroke();
+        ctx.restore();
+      }
+      function drawHammer() {
+        ctx.save();
+        ctx.translate(
+          hm.x,
+          hm.y + (hm.swing && hm.swing.t > 0.07 && hm.swing.t < 0.14 ? 6 : 0),
+        );
+        ctx.rotate(hm.angle);
+        const wood = ctx.createLinearGradient(-8, 0, 8, 0);
+        wood.addColorStop(0, "#a8743a");
+        wood.addColorStop(0.5, "#d99c58");
+        wood.addColorStop(1, "#8c5d2d");
+        ctx.fillStyle = wood;
+        ctx.strokeStyle = "#2a1a0c";
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.roundRect(-8, -250, 16, 200, 6);
+        ctx.fill();
+        ctx.stroke();
+        const m = ctx.createLinearGradient(0, -90, 0, 0);
+        m.addColorStop(0, "#c7ccd8");
+        m.addColorStop(0.5, "#8d94a6");
+        m.addColorStop(1, "#5c6273");
+        ctx.fillStyle = m;
+        ctx.beginPath();
+        ctx.roundRect(-52, -92, 104, 92, 14);
+        ctx.fill();
+        ctx.stroke();
+        ctx.fillStyle = "#ff3d7f";
+        ctx.fillRect(-52, -70, 104, 12);
+        ctx.fillStyle = "rgba(255,255,255,.35)";
+        ctx.fillRect(-44, -86, 88, 6);
+        ctx.restore();
+      }
+      function drawGame() {
+        ctx.drawImage(bgc, 0, 0);
+        for (const row of [330, 600])
+          for (const h of HOLES.filter((h) => h.y === row)) drawHole(h, G.ch);
+        for (const f of G.flashes) {
+          const a = f.life / 0.18;
+          ctx.save();
+          ctx.translate(f.x, f.y);
+          ctx.fillStyle = `rgba(255,255,255,${a})`;
+          star(ctx, 0, 0, 60 + (1 - a) * 40, 0.3);
+          ctx.fill();
+          ctx.restore();
+        }
+        for (const p of G.parts) {
+          ctx.globalAlpha = clamp(p.life * 2);
+          ctx.fillStyle = p.c;
+          if (p.kind === "star") {
+            star(ctx, p.x, p.y, p.size * 1.6, p.life * 8);
+            ctx.fill();
+          } else {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size, 0, 7);
+            ctx.fill();
+          }
+        }
+        ctx.globalAlpha = 1;
+        for (const t of G.texts) {
+          ctx.globalAlpha = clamp(t.life * 2);
+          ctx.font = `${t.sz}px ${FONT_D}`;
+          ctx.textAlign = "center";
+          ctx.lineJoin = "round";
+          ctx.lineWidth = 9;
+          ctx.strokeStyle = "#14082e";
+          ctx.strokeText(t.t, t.x, t.y);
+          ctx.fillStyle = t.c;
+          ctx.fillText(t.t, t.x, t.y);
+        }
+        ctx.globalAlpha = 1;
+        if (G.phase === "playing") drawHammer();
+        updateHudLight();
+      }
+      let lastHud = "";
+      function updateHudLight() {
+        const s =
+          G.score + "|" + G.hits + "|" + G.combo + "|" + (G.ch ? G.ch.hits : 0);
+        if (s !== lastHud) {
+          lastHud = s;
+          updateHud();
+        }
+      }
+
+      let last = performance.now();
+      function loop(ts) {
+        const dt = Math.min(0.05, (ts - last) / 1000);
+        last = ts;
+        if (cur === "game" && state.H && G.ch) {
+          stepGame(dt);
+          drawGame();
+        } else if (cur === "preview" && pv.ch) {
+          stepPreview(dt);
+          drawPreview();
+        }
+        requestAnimationFrame(loop);
+      }
+      requestAnimationFrame(loop);
+      if (document.fonts && document.fonts.load)
+        document.fonts.load("40px Bungee");
+    </script>
+  </body>
+</html>
